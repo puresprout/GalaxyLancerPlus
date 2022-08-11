@@ -1,6 +1,7 @@
 import pygame
 import sys
 from background import *
+from player import *
 
 def main():
   pygame.init()
@@ -9,6 +10,7 @@ def main():
   clock = pygame.time.Clock()
 
   background = Background("images/galaxy.png", 16)
+  player = Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10)
 
   while True:
     for event in pygame.event.get():
@@ -16,7 +18,11 @@ def main():
         pygame.quit()
         sys.exit()
 
+    key = pygame.key.get_pressed()
+
     background.draw(screen)
+    player.key_pressed(key)
+    player.draw(screen)
 
     pygame.display.update()
     clock.tick(10)
