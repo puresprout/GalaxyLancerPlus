@@ -9,7 +9,7 @@ def main():
   screen = pygame.display.set_mode((800, 600))
   clock = pygame.time.Clock()
 
-  background = Background("images/galaxy.png", 16)
+  background = Background("images/galaxy.png", 10)
   player = Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10)
 
   while True:
@@ -25,7 +25,7 @@ def main():
     player.draw(screen)
 
     pygame.display.update()
-    clock.tick(10)
+    clock.tick(30)
 
 if __name__ == '__main__':
   main()
