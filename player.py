@@ -54,12 +54,12 @@ class Player:
 
     self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
     if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
-      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30))
+      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30, self))
 
     self.frequency_z_key = (self.frequency_z_key + 1) * key[pygame.K_z]
     if (self.frequency_z_key % self.MAX_FREQUENCY_Z_KEY == 1):
       for angle in range(0, 360, 10):
-        self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30))
+        self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30, self))
 
   def draw(self, screen):
     for child in self.children:
@@ -72,15 +72,19 @@ class Player:
     screen.blit(self.burner_image, [self.x - self.burner_half_width, self.y + self.starship_half_height - final_burner_position])
     screen.blit(self.starship_images[self.slode], [self.x - self.starship_half_width, self.y - self.starship_half_height])
 
+  def removeChild(self, child):
+    self.children.remove(child)
+
 
 
 class PlayerBullet:
-  def __init__(self, x, y, image_file, angle, speed) -> None:
+  def __init__(self, x, y, image_file, angle, speed, player) -> None:
     self.x = x
     self.y = y
     self.image = pygame.image.load(image_file)
     self.angle = angle
     self.speed = speed
+    self.player = player
 
   def draw(self, screen):
     self.x += self.speed * math.cos(math.radians(self.angle))
@@ -92,3 +96,7 @@ class PlayerBullet:
     fianl_half_height = final_image.get_height() / 2
 
     screen.blit(final_image, [self.x - final_half_width, self.y - fianl_half_height])
+
+    if (self.y < 0 or self.y > 600 or self.x < 0 or self.x > 800):
+      self.player.removeChild(self)
+
