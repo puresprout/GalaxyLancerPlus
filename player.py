@@ -20,6 +20,8 @@ class Player:
     # 나중에 윈도우 크기 조정
     self.x = 400
     self.y = 300
+    self.MAX_FREQUENCY_SPACE_KEY = 15
+    self.frequency_space_key = 0
 
     self.children = []
 
@@ -44,10 +46,12 @@ class Player:
       self.x += self.speed
       if self.x > 800:
         self.x = 800
-    if key[pygame.K_SPACE] == 1:
-      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 20))
     if key[pygame.K_LEFT] == 0 and key[pygame.K_RIGHT] == 0:
       self.slode = 0
+
+    self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
+    if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
+      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 20))
 
   def draw(self, screen):
     for child in self.children:
