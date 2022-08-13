@@ -2,6 +2,7 @@ import pygame
 import sys
 from background import *
 from player import *
+from enemy_generator import *
 
 def main():
   pygame.init()
@@ -11,6 +12,7 @@ def main():
 
   background = Background("images/galaxy.png", 10)
   player = Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10)
+  enemy_generator = EnemyGenerator(1)
 
   while True:
     for event in pygame.event.get():
@@ -23,6 +25,7 @@ def main():
     background.draw(screen)
     player.key_pressed(key)
     player.draw(screen)
+    enemy_generator.draw(screen)
 
     pygame.display.update()
     clock.tick(30)
