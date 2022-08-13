@@ -1,5 +1,4 @@
-from re import X
-from turtle import Screen, speed
+import math
 import pygame
 
 class Player:
@@ -20,8 +19,12 @@ class Player:
     # 나중에 윈도우 크기 조정
     self.x = 400
     self.y = 300
+
     self.MAX_FREQUENCY_SPACE_KEY = 15
     self.frequency_space_key = 0
+
+    self.MAX_FREQUENCY_Z_KEY = 15
+    self.frequency_z_key = 0
 
     self.children = []
 
@@ -51,7 +54,12 @@ class Player:
 
     self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
     if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
-      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 20))
+      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30))
+
+    self.frequency_z_key = (self.frequency_z_key + 1) * key[pygame.K_z]
+    if (self.frequency_z_key % self.MAX_FREQUENCY_Z_KEY == 1):
+      for angle in range(0, 360, 10):
+        self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30))
 
   def draw(self, screen):
     for child in self.children:
@@ -67,14 +75,20 @@ class Player:
 
 
 class PlayerBullet:
-  def __init__(self, x, y, image_file, speed) -> None:
+  def __init__(self, x, y, image_file, angle, speed) -> None:
     self.x = x
     self.y = y
     self.image = pygame.image.load(image_file)
+    self.angle = angle
     self.speed = speed
-    self.half_width = self.image.get_width() / 2
-    self.half_height = self.image.get_height() / 2
 
   def draw(self, screen):
-    screen.blit(self.image, [self.x - self.half_width, self.y - self.half_height])
-    self.y -= self.speed
+    self.x += self.speed * math.cos(math.radians(self.angle))
+    self.y += self.speed * math.sin(math.radians(self.angle))
+
+    # 마이너스 각도는 시간 반대방향 회전
+    final_image = pygame.transform.rotozoom(self.image, -90 - self.angle, 1)
+    final_half_width = final_image.get_width() / 2
+    fianl_half_height = final_image.get_height() / 2
+
+    screen.blit(final_image, [self.x - final_half_width, self.y - fianl_half_height])
