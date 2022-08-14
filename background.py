@@ -1,13 +1,15 @@
 import pygame
 
-class Background:
+from game_object import *
+
+class Background(GameObject):
   def __init__(self, image_file, speed):
-    self.image_file = image_file
+    super().__init__(0, 0)
     self.image = pygame.image.load(image_file)
     self.speed = speed
-    self.y = 0
 
   def draw(self, screen):
-    screen.blit(self.image, [0, self.y - screen.get_height()])
-    screen.blit(self.image, [0, self.y])
+    # 물체의 정중앙이 아닌 좌상단 좌표를 기준으로 그린다.
+    screen.blit(self.image, [self.x, self.y - screen.get_height()])
+    screen.blit(self.image, [self.x, self.y])
     self.y = (self.y + self.speed) % screen.get_height()

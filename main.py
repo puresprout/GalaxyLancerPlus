@@ -10,9 +10,10 @@ def main():
   screen = pygame.display.set_mode((800, 600))
   clock = pygame.time.Clock()
 
-  background = Background("images/galaxy.png", 10)
-  player = Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10)
-  enemy_generator = EnemyGenerator(1)
+  root = GameObject(0, 0)
+  root.children.append(Background("images/galaxy.png", 10))
+  root.children.append(Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10))
+  root.children.append(EnemyGenerator(1))
 
   while True:
     for event in pygame.event.get():
@@ -22,10 +23,8 @@ def main():
 
     key = pygame.key.get_pressed()
 
-    background.draw(screen)
-    player.key_pressed(key)
-    player.draw(screen)
-    enemy_generator.draw(screen)
+    root.key_pressed(key)
+    root.draw(screen)
 
     pygame.display.update()
     clock.tick(30)

@@ -1,8 +1,13 @@
 import math
 import pygame
 
-class Player:
+from game_object import GameObject
+
+class Player(GameObject):
   def __init__(self, starship_normal_image_file, starship_lef_image_file, starship_rigt_image_file, burner_image_file, speed):
+    # 나중에 윈도우 크기 조정
+    super().__init__(400, 300)
+
     self.starship_images = [ pygame.image.load(starship_normal_image_file),
           pygame.image.load(starship_lef_image_file),
           pygame.image.load(starship_rigt_image_file) ]
@@ -16,17 +21,10 @@ class Player:
     self.MAX_BURNER_POSITION = 3
     self.burner_position = 0
 
-    # 나중에 윈도우 크기 조정
-    self.x = 400
-    self.y = 300
-
     self.MAX_FREQUENCY_SPACE_KEY = 15
     self.frequency_space_key = 0
-
     self.MAX_FREQUENCY_Z_KEY = 15
     self.frequency_z_key = 0
-
-    self.children = []
 
   def key_pressed(self, key):
     if key[pygame.K_UP] == 1:
@@ -55,15 +53,13 @@ class Player:
     self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
     if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
       self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30, self))
-
     self.frequency_z_key = (self.frequency_z_key + 1) * key[pygame.K_z]
     if (self.frequency_z_key % self.MAX_FREQUENCY_Z_KEY == 1):
       for angle in range(0, 360, 10):
         self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30, self))
 
   def draw(self, screen):
-    for child in self.children:
-      child.draw(screen)
+    super().draw(screen)
 
     self.burner_position = (self.burner_position + 1) % self.MAX_BURNER_POSITION
     final_burner_position = (self.MAX_BURNER_POSITION - 1) * 2 + self.burner_position * 2
@@ -77,10 +73,10 @@ class Player:
 
 
 
-class PlayerBullet:
+class PlayerBullet(GameObject):
   def __init__(self, x, y, image_file, angle, speed, player) -> None:
-    self.x = x
-    self.y = y
+    super().__init__(x, y)
+
     self.image = pygame.image.load(image_file)
     self.angle = angle
     self.speed = speed
@@ -99,4 +95,3 @@ class PlayerBullet:
 
     if (self.y < 0 or self.y > 600 or self.x < 0 or self.x > 800):
       self.player.removeChild(self)
-
