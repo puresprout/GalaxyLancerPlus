@@ -8,6 +8,14 @@ class GameObject:
     for child in self.children:
       child.key_pressed(screen)
 
+  def preDraw(self):
+    for child in self.children:
+      child.preDraw()
+
   def draw(self, screen):
     for child in self.children:
       child.draw(screen)
+
+  def postDraw(self):
+    for child in self.children:
+      child.postDraw()

@@ -26,6 +26,8 @@ class Player(GameObject):
     self.MAX_FREQUENCY_Z_KEY = 15
     self.frequency_z_key = 0
 
+    self.deleting_children = []
+
   def key_pressed(self, key):
     if key[pygame.K_UP] == 1:
       self.slode = 0
@@ -68,8 +70,14 @@ class Player(GameObject):
     screen.blit(self.burner_image, [self.x - self.burner_half_width, self.y + self.starship_half_height - final_burner_position])
     screen.blit(self.starship_images[self.slode], [self.x - self.starship_half_width, self.y - self.starship_half_height])
 
-  def removeChild(self, child):
-    self.children.remove(child)
+  def postDraw(self):
+    for child in self.deleting_children:
+      self.children.remove(child)
+
+    self.deleting_children = []
+
+  def appendDeletingChild(self, child):
+    self.deleting_children.append(child)
 
 
 
@@ -88,10 +96,12 @@ class PlayerBullet(GameObject):
 
     # 마이너스 각도는 시간 반대방향 회전
     final_image = pygame.transform.rotozoom(self.image, -90 - self.angle, 1)
-    final_half_width = final_image.get_width() / 2
-    fianl_half_height = final_image.get_height() / 2
+    final_width = final_image.get_width()
+    final_height = final_image.get_height()
+    final_half_width = final_width / 2
+    fianl_half_height = final_height / 2
 
     screen.blit(final_image, [self.x - final_half_width, self.y - fianl_half_height])
 
-    if (self.y < 0 or self.y > 600 or self.x < 0 or self.x > 800):
-      self.player.removeChild(self)
+    if (self.y < -final_height or self.y > screen.get_height() + final_height or self.x < -final_width or self.x > screen.get_width() + final_width):
+      self.player.appendDeletingChild(self)

@@ -24,7 +24,9 @@ def main():
     key = pygame.key.get_pressed()
 
     root.key_pressed(key)
+    root.preDraw()
     root.draw(screen)
+    root.postDraw()
 
     pygame.display.update()
     clock.tick(30)
