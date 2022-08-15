@@ -68,22 +68,15 @@ class Player(GameObject):
     screen.blit(self.burner_image, [self.x - self.burner_half_width, self.y + self.starship_half_height - final_burner_position])
     screen.blit(self.starship_images[self.slode], [self.x - self.starship_half_width, self.y - self.starship_half_height])
 
-  def postDraw(self):
-    for child in self.deleting_children:
-      self.children.remove(child)
-
-    self.deleting_children = []
-
 
 
 class PlayerBullet(GameObject):
-  def __init__(self, x, y, image_file, angle, speed, player) -> None:
-    super().__init__(x, y)
+  def __init__(self, x, y, image_file, angle, speed, parent) -> None:
+    super().__init__(x, y, parent)
 
     self.image = pygame.image.load(image_file)
     self.angle = angle
     self.speed = speed
-    self.player = player
 
   def draw(self, screen):
     self.x += self.speed * math.cos(math.radians(self.angle))
@@ -99,4 +92,4 @@ class PlayerBullet(GameObject):
     screen.blit(final_image, [self.x - final_half_width, self.y - fianl_half_height])
 
     if (self.y < -final_height or self.y > screen.get_height() + final_height or self.x < -final_width or self.x > screen.get_width() + final_width):
-      self.player.appendDeletingChild(self)
+      self.parent.appendDeletingChild(self)

@@ -21,9 +21,3 @@ class EnemyGenerator(GameObject):
     super().draw(screen)
 
     print(len(self.children))
-
-  def postDraw(self):
-    for child in self.deleting_children:
-      self.children.remove(child)
-
-    self.deleting_children = []

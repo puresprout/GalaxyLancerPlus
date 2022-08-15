@@ -3,12 +3,11 @@ import pygame
 from game_object import GameObject
 
 class Enemy(GameObject):
-  def __init__(self, x, y, speed, angle, enemy_generator):
-    super().__init__(x, y)
+  def __init__(self, x, y, speed, angle, parent):
+    super().__init__(x, y, parent)
     self.image = pygame.image.load('images/enemy.png')
     self.speed = speed
     self.angle = angle
-    self.enemy_generator = enemy_generator
     
     # print("적 출현 x={}, y={}".format(x, y))
 
@@ -24,5 +23,5 @@ class Enemy(GameObject):
     screen.blit(self.image, [self.x - half_width, self.y - half_height])
 
     if (self.y < -height or self.y > screen.get_height() + height or self.x < -width or self.x > screen.get_width() + width):
-      self.enemy_generator.appendDeletingChild(self)
+      self.parent.appendDeletingChild(self)
     
