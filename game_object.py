@@ -3,6 +3,7 @@ class GameObject:
     self.x = x
     self.y = y
     self.children = []
+    self.deleting_children = []
 
   def key_pressed(self, screen):
     for child in self.children:
@@ -19,3 +20,6 @@ class GameObject:
   def postDraw(self):
     for child in self.children:
       child.postDraw()
+
+  def appendDeletingChild(self, child):
+    self.deleting_children.append(child)

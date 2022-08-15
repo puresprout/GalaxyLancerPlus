@@ -26,8 +26,6 @@ class Player(GameObject):
     self.MAX_FREQUENCY_Z_KEY = 15
     self.frequency_z_key = 0
 
-    self.deleting_children = []
-
   def key_pressed(self, key):
     if key[pygame.K_UP] == 1:
       self.slode = 0
@@ -75,9 +73,6 @@ class Player(GameObject):
       self.children.remove(child)
 
     self.deleting_children = []
-
-  def appendDeletingChild(self, child):
-    self.deleting_children.append(child)
 
 
 

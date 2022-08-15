@@ -12,10 +12,18 @@ class EnemyGenerator(GameObject):
   def draw(self, screen):
     # generator 클래스는 자신 자신을 그릴것이 없다.
 
-    super().draw(screen)
-
     self.frequency = (self.frequency + 1) % self.MAX_FREQUENCY
     if (self.frequency == 0):
       x = random.randint(0, 800)
       y = 0
-      self.children.append(Enemy(x, y))
+      self.children.append(Enemy(x, y, 15, 90, self))
+
+    super().draw(screen)
+
+    print(len(self.children))
+
+  def postDraw(self):
+    for child in self.deleting_children:
+      self.children.remove(child)
+
+    self.deleting_children = []
