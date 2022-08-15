@@ -1,5 +1,6 @@
 import random
-from enemy import *
+from enemy.enemy_type1 import *
+from enemy.enemy_type2 import *
 from game_object import GameObject
 
 class EnemyGenerator(GameObject):
@@ -14,10 +15,17 @@ class EnemyGenerator(GameObject):
 
     self.frequency = (self.frequency + 1) % self.MAX_FREQUENCY
     if (self.frequency == 0):
-      x = random.randint(0, 800)
       y = 0
-      self.children.append(Enemy(x, y, 15, 90, self))
+      type = random.randint(1, 2)
+      if type == 1:
+        x = random.randint(0, 800)
+        self.children.append(EnemyType1(x, y, 15, 90, self))
+      elif type == 2:
+        x = random.randint(0, 800)
+        speed = random.randint(15, 25)
+        angle = random.randint(70, 110)
+        self.children.append(EnemyType2(x, y, speed, angle, self))
 
     super().draw(screen)
 
-    print(len(self.children))
+    # print(len(self.children))
