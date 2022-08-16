@@ -16,10 +16,10 @@ class EnemyGenerator(GameObject):
     self.frequency = (self.frequency + 1) % self.MAX_FREQUENCY
     if (self.frequency == 0):
       y = 0
-      type = random.randint(1, 2)
+      type = random.randint(1, 1)
       if type == 1:
         x = random.randint(0, 800)
-        self.children.append(EnemyType1(x, y, 15, 90, self))
+        self.children.append(EnemyType1(x, y, 10, 90, self))
       elif type == 2:
         x = random.randint(0, 800)
         speed = random.randint(15, 25)
@@ -28,4 +28,4 @@ class EnemyGenerator(GameObject):
 
     super().draw(screen)
 
-    # print(len(self.children))
+    # print("enemy count {}".format(len(self.children)))

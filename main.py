@@ -3,6 +3,17 @@ import sys
 from background import *
 from player import *
 from enemy_generator import *
+from enemy.enemy_bullet import *
+
+def get_object_count(game_object):
+  sum = 0
+
+  for child in game_object.children:
+    sum += get_object_count(child)
+    if type(child) == EnemyBullet:
+      sum += 1
+
+  return sum
 
 def main():
   pygame.init()
@@ -27,6 +38,8 @@ def main():
     root.preDraw()
     root.draw(screen)
     root.postDraw()
+
+    # print("enemy_bullet count {}".format(get_object_count(root)))
 
     pygame.display.update()
     clock.tick(30)

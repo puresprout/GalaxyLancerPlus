@@ -19,14 +19,20 @@ class GameObject:
       child.draw(screen)
 
   def postDraw(self):
-    for child in self.deleting_children:
-      self.children.remove(child)
-
-    self.deleting_children.clear()
+    self.remove_reserved_children()
 
     for child in self.children:
       child.postDraw()
 
+  def reserve_removing_myself(self):
+    self.parent.reserve_removing_child(self)
+
   # 지울 자식을 추가해 놓으면 현재 프레임 호출이 끝난후 해당 자식이 삭제된다.
-  def appendDeletingChild(self, child):
+  def reserve_removing_child(self, child):
     self.deleting_children.append(child)
+
+  def remove_reserved_children(self):
+    for child in self.deleting_children:
+      self.children.remove(child)
+
+    self.deleting_children.clear()

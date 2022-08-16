@@ -1,7 +1,7 @@
 import math
 import pygame
-
 from game_object import GameObject
+from player_bullet import PlayerBullet
 
 class Player(GameObject):
   def __init__(self, starship_normal_image_file, starship_lef_image_file, starship_rigt_image_file, burner_image_file, speed):
@@ -67,29 +67,3 @@ class Player(GameObject):
     # 그릴때 x, y 위치는 starship 이미지의 정중앙으로 한다. (burner 이미지는 고려하지 않는다.)
     screen.blit(self.burner_image, [self.x - self.burner_half_width, self.y + self.starship_half_height - final_burner_position])
     screen.blit(self.starship_images[self.slode], [self.x - self.starship_half_width, self.y - self.starship_half_height])
-
-
-
-class PlayerBullet(GameObject):
-  def __init__(self, x, y, image_file, angle, speed, parent) -> None:
-    super().__init__(x, y, parent)
-
-    self.image = pygame.image.load(image_file)
-    self.angle = angle
-    self.speed = speed
-
-  def draw(self, screen):
-    self.x += self.speed * math.cos(math.radians(self.angle))
-    self.y += self.speed * math.sin(math.radians(self.angle))
-
-    # 마이너스 각도는 시간 반대방향 회전
-    final_image = pygame.transform.rotozoom(self.image, -90 - self.angle, 1)
-    final_width = final_image.get_width()
-    final_height = final_image.get_height()
-    final_half_width = final_width / 2
-    fianl_half_height = final_height / 2
-
-    screen.blit(final_image, [self.x - final_half_width, self.y - fianl_half_height])
-
-    if (self.y < -final_height or self.y > screen.get_height() + final_height or self.x < -final_width or self.x > screen.get_width() + final_width):
-      self.parent.appendDeletingChild(self)
