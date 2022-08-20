@@ -7,9 +7,9 @@ class EnemyGenerator(GameObject):
   def __init__(self):
     super().__init__(0, 0)
 
-    count_per_second = 1
+    ENEMY_COUNT_PER_SECOND = 1
 
-    self.MAX_FREQUENCY = count_per_second * 30
+    self.MAX_FREQUENCY = 30 / ENEMY_COUNT_PER_SECOND
     self.frequency = 0
 
   def draw(self, screen):
