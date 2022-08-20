@@ -2,7 +2,7 @@ import pygame
 import sys
 from background import *
 from player import *
-from enemy_generator import *
+from enemy.enemy_generator import *
 from enemy.enemy_bullet import *
 
 def get_object_count(game_object):
@@ -23,9 +23,9 @@ def main():
 
   root = GameObject(0, 0)
   GameObject.root = root
-  root.children.append(Background("images/galaxy.png", 10))
-  root.children.append(Player("images/starship.png", "images/starship_l.png", "images/starship_r.png", "images/starship_burner.png", 10))
-  root.children.append(EnemyGenerator(1))
+  root.children.append(Background())
+  root.children.append(Player())
+  root.children.append(EnemyGenerator())
 
   while True:
     for event in pygame.event.get():

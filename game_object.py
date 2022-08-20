@@ -8,6 +8,9 @@ class GameObject:
     self.deleting_children = []
     self.parent = parent
 
+  def set_parent(self, parent):
+    self.parent = parent
+
   def key_pressed(self, screen):
     for child in self.children:
       child.key_pressed(screen)
@@ -38,9 +41,6 @@ class GameObject:
       self.children.remove(child)
 
     self.deleting_children.clear()
-
-  def set_parent(self, parent):
-    self.parent = parent
 
   @staticmethod
   def append_to_root(game_object):

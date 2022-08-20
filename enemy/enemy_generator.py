@@ -4,8 +4,10 @@ from enemy.enemy_type2 import *
 from game_object import GameObject
 
 class EnemyGenerator(GameObject):
-  def __init__(self, count_per_second):
+  def __init__(self):
     super().__init__(0, 0)
+
+    count_per_second = 1
 
     self.MAX_FREQUENCY = count_per_second * 30
     self.frequency = 0

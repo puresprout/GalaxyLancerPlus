@@ -27,7 +27,7 @@ class Enemy(GameObject):
 
     if (self.fired == False) and (self.y > screen.get_height() / 2):
       self.fired = True
-      GameObject.append_to_root(EnemyBullet(self.x, self.y, self.speed * 0.1, self.angle))
+      GameObject.append_to_root(EnemyBullet(self.x, self.y, self.speed * 1.5, self.angle))
       self.angle = -90
 
     if (self.y < -final_height or self.y > screen.get_height() + final_height or self.x < -final_width or self.x > screen.get_width() + final_width):

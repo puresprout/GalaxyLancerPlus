@@ -4,19 +4,19 @@ from game_object import GameObject
 from player_bullet import PlayerBullet
 
 class Player(GameObject):
-  def __init__(self, starship_normal_image_file, starship_lef_image_file, starship_rigt_image_file, burner_image_file, speed):
+  def __init__(self):
     # 나중에 윈도우 크기 조정
     super().__init__(400, 300)
 
-    self.starship_images = [ pygame.image.load(starship_normal_image_file),
-          pygame.image.load(starship_lef_image_file),
-          pygame.image.load(starship_rigt_image_file) ]
-    self.burner_image = pygame.image.load(burner_image_file)
+    self.starship_images = [ pygame.image.load("images/starship.png"),
+          pygame.image.load("images/starship_l.png"),
+          pygame.image.load("images/starship_r.png") ]
+    self.burner_image = pygame.image.load("images/starship_burner.png")
     self.starship_half_width = self.starship_images[0].get_width() / 2
     self.starship_half_height = self.starship_images[0].get_height() / 2
     self.burner_half_width = self.burner_image.get_width() / 2
     self.burner_half_height = self.burner_image.get_height() / 2
-    self.speed = speed
+    self.speed = 10
     self.slode = 0
     self.MAX_BURNER_POSITION = 3
     self.burner_position = 0
@@ -53,6 +53,7 @@ class Player(GameObject):
     self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
     if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
       self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30, self))
+    
     self.frequency_z_key = (self.frequency_z_key + 1) * key[pygame.K_z]
     if (self.frequency_z_key % self.MAX_FREQUENCY_Z_KEY == 1):
       for angle in range(0, 360, 10):
