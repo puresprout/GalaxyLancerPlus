@@ -1,4 +1,6 @@
 class GameObject:
+  root = None
+
   def __init__(self, x, y, parent=None):
     self.x = x
     self.y = y
@@ -36,3 +38,11 @@ class GameObject:
       self.children.remove(child)
 
     self.deleting_children.clear()
+
+  def set_parent(self, parent):
+    self.parent = parent
+
+  @staticmethod
+  def append_to_root(game_object):
+    GameObject.root.children.append(game_object)
+    game_object.set_parent(GameObject.root)

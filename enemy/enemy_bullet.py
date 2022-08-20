@@ -3,8 +3,8 @@ import math
 from game_object import GameObject
 
 class EnemyBullet(GameObject):
-  def __init__(self, x, y, speed, angle, parent):
-    super().__init__(x, y, parent)
+  def __init__(self, x, y, speed, angle):
+    super().__init__(x, y)
     
     self.speed = speed
     self.angle = angle
