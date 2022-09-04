@@ -4,6 +4,7 @@ from background import *
 from player import *
 from enemy.enemy_generator import *
 from enemy.enemy_bullet import *
+from collision_detector import *
 
 def get_object_count(game_object):
   sum = 0
@@ -40,6 +41,8 @@ def main():
     root.draw(screen)
     root.postDraw()
 
+    CollisionDetector.detect(root)
+    
     # print("enemy_bullet count {}".format(get_object_count(root)))
 
     pygame.display.update()

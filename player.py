@@ -2,6 +2,7 @@ import math
 import pygame
 from game_object import GameObject
 from player_bullet import PlayerBullet
+from collider import *
 
 class Player(GameObject):
   def __init__(self):
@@ -12,8 +13,11 @@ class Player(GameObject):
           pygame.image.load("images/starship_l.png"),
           pygame.image.load("images/starship_r.png") ]
     self.burner_image = pygame.image.load("images/starship_burner.png")
-    self.starship_half_width = self.starship_images[0].get_width() / 2
-    self.starship_half_height = self.starship_images[0].get_height() / 2
+
+    self.starship_width = self.starship_images[0].get_width()
+    self.starship_height = self.starship_images[0].get_height()
+    self.starship_half_width = self.starship_width / 2
+    self.starship_half_height = self.starship_height / 2
     self.burner_half_width = self.burner_image.get_width() / 2
     self.burner_half_height = self.burner_image.get_height() / 2
     self.speed = 10
@@ -25,6 +29,15 @@ class Player(GameObject):
     self.frequency_space_key = 0
     self.MAX_FREQUENCY_Z_KEY = 15
     self.frequency_z_key = 0
+
+    # self.collider = Collider.CIRCLE
+    self.tag = "PLAYER"
+
+  def get_width(self):
+    return self.starship_width
+
+  def get_height(self):
+    return self.starship_height
 
   def key_pressed(self, key):
     if key[pygame.K_UP] == 1:
@@ -52,12 +65,12 @@ class Player(GameObject):
 
     self.frequency_space_key = (self.frequency_space_key + 1) * key[pygame.K_SPACE]
     if (self.frequency_space_key % self.MAX_FREQUENCY_SPACE_KEY == 1):
-      self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30, self))
+      GameObject.append_to_root(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", 270, 30))
     
     self.frequency_z_key = (self.frequency_z_key + 1) * key[pygame.K_z]
     if (self.frequency_z_key % self.MAX_FREQUENCY_Z_KEY == 1):
       for angle in range(0, 360, 10):
-        self.children.append(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30, self))
+        GameObject.append_to_root(PlayerBullet(self.x, self.y - self.starship_half_height, "images/bullet.png", angle, 30))
 
   def draw(self, screen):
     super().draw(screen)
@@ -68,3 +81,6 @@ class Player(GameObject):
     # 그릴때 x, y 위치는 starship 이미지의 정중앙으로 한다. (burner 이미지는 고려하지 않는다.)
     screen.blit(self.burner_image, [self.x - self.burner_half_width, self.y + self.starship_half_height - final_burner_position])
     screen.blit(self.starship_images[self.slode], [self.x - self.starship_half_width, self.y - self.starship_half_height])
+
+  def onCollision(self, game_object):
+    pass

@@ -1,15 +1,43 @@
 class GameObject:
   root = None
+  detectable_list = []
 
   def __init__(self, x, y, parent=None):
     self.x = x
     self.y = y
+    self.collider = None
+    self.tag = None
+
     self.children = []
     self.deleting_children = []
     self.parent = parent
 
   def set_parent(self, parent):
     self.parent = parent
+
+  def get_width(self):
+    return None
+
+  def get_height(self):
+    return None
+
+  def append(self, game_object):
+    self.children.append(game_object)
+    
+    if game_object.collider != None:
+      self.detectable_list.append(game_object)
+
+  def remove(self, game_object):
+    try:
+      self.children.remove(game_object)
+    except:
+      pass
+
+    if game_object.collider != None:
+      try:
+        self.detectable_list.remove(game_object)
+      except:
+        pass
 
   def key_pressed(self, screen):
     for child in self.children:
@@ -38,11 +66,11 @@ class GameObject:
 
   def remove_reserved_children(self):
     for child in self.deleting_children:
-      self.children.remove(child)
+        self.remove(child)
 
     self.deleting_children.clear()
 
   @staticmethod
   def append_to_root(game_object):
-    GameObject.root.children.append(game_object)
+    GameObject.root.append(game_object)
     game_object.set_parent(GameObject.root)

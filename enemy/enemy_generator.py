@@ -1,4 +1,5 @@
 import random
+from collision_detector import CollisionDetector
 from enemy.enemy_type1 import *
 from enemy.enemy_type2 import *
 from game_object import GameObject
@@ -21,13 +22,18 @@ class EnemyGenerator(GameObject):
       type = random.randint(1, 1)
       if type == 1:
         x = random.randint(0, 800)
-        self.children.append(EnemyType1(x, y, 10, 90, self))
+        self.append(EnemyType1(x, y, 10, 90, self))
       elif type == 2:
         x = random.randint(0, 800)
         speed = random.randint(15, 25)
         angle = random.randint(70, 110)
-        self.children.append(EnemyType2(x, y, speed, angle, self))
+        self.append(EnemyType2(x, y, speed, angle, self))
 
     super().draw(screen)
+
+    # for child1 in self.children:
+    #   for child2 in GameObject.root.children:
+    #     if child2.tag == "PLAYER_BULLET" and CollisionDetector.detect_collision(child1, child2):
+    #       child1.onCollision(child2)
 
     # print("enemy count {}".format(len(self.children)))
